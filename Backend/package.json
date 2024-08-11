@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "server": "nodemon server.js",
-    "build":"npm install --prefix ./frontend && npm run build --prefix ./frontend && npm install"
+    "build-frontend": "cd frontend && yarn install && yarn build",
+    "build-backend": "yarn install",
+    "build": "yarn run build-frontend && yarn run build-backend",
+    "start": "node server.js"
   },
   "author": "Madhav Maheshwari",
   "license": "ISC",
