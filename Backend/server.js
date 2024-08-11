@@ -6,7 +6,6 @@ const chatRoutes = require('./Routes/chatRoutes.js');
 const messageRoutes = require('./Routes/messageRoutes.js');
 const { notFoundHandler, errorHandler } = require('./Middlwares/errorMiddleWare.js');
 const path = require('path');
-const { Console } = require('console');
 
 dotenv.config();
 const app = express();
@@ -16,7 +15,7 @@ app.use(express.json());
 
 app.use('/api/users', userRoutes);
 app.use('/api/chats', chatRoutes);
-app.use('/api/message', messageRoutes);
+// app.use('/api/message', messageRoutes);
 
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ Deployment + +-+-+-+-+-+-+-+-+-+-+-+-+
 
