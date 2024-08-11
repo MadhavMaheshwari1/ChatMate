@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node Backend/server.js",
     "serve": "nodemon Backend/server.js",
-    "build": "npm install --legacy-peer-deps && npm install --legacy-peer-deps --prefix Backend/frontend && npm run build --prefix Backend/frontend"
+    "build": "npm install && npm install --prefix Backend/frontend && npm run build --prefix Backend/frontend"
   },
   "author": "Madhav Maheshwari",
   "license": "ISC",
