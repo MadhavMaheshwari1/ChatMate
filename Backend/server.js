@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.use('/api/users', userRoutes);
 app.use('/api/chats', chatRoutes);
-// app.use('/api/message', messageRoutes);
+app.use('/api/message', messageRoutes);
 
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ Deployment + +-+-+-+-+-+-+-+-+-+-+-+-+
 
