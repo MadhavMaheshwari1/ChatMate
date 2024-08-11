@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node Backend/server.js",
-    "serve": "nodemon Backend/server.js",
-    "build": "npm install && npm install --prefix Backend/frontend && npm run build --prefix Backend/frontend"
+    "server": "nodemon server.js",
+    "build":"npm install --prefix ./frontend && npm run build --prefix ./frontend && npm install"
   },
   "author": "Madhav Maheshwari",
   "license": "ISC",
