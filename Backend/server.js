@@ -8,7 +8,7 @@ import connectDB from './Config/db.js';
 import userRoutes from './Routes/userRoutes.js';
 import chatRoutes from './Routes/chatRoutes.js';
 import messageRoutes from './Routes/messageRoutes.js';
-import { notFoundHandler, errorHandler } from './Middlwares/errorMiddleWare.js';
+import { notFoundHandler, errorHandler } from './Middlewares/errorMiddleWare.js';
 
 // Initialize dotenv
 dotenv.config();
