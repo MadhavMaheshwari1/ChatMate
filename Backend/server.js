@@ -5,7 +5,7 @@ const userRoutes = require('./Routes/userRoutes.js');
 const chatRoutes = require('./Routes/chatRoutes.js');
 const messageRoutes = require('./Routes/messageRoutes.js');
 const { notFoundHandler, errorHandler } = require('./Middlwares/errorMiddleWare.js');
-const path = require('path');
+// const path = require('path');
 
 dotenv.config();
 const app = express();
@@ -19,22 +19,23 @@ app.use('/api/message', messageRoutes);
 
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ Deployment + +-+-+-+-+-+-+-+-+-+-+-+-+
 
-const __dirname1 = path.resolve();
-console.log(__dirname1);
+// const __dirname1 = path.resolve();
+// console.log(__dirname1);
 
 
-if (process.env.NODE_ENV === "production") {
-    console.log("Serving static files from: ", path.join(__dirname1, "Backend", "frontend", "build"));
-    app.use(express.static(path.join(__dirname1, "/Backend/frontend/build")));
-    
-    app.get("*", (req, res) => {
-        console.log("Request received for: ", req.path);
-        res.sendFile(path.resolve(__dirname1, "Backend", "frontend", "build", "index.html"));
-    });
-}
+// if (process.env.NODE_ENV === "production") {
+//     console.log("Serving static files from: ", path.join(__dirname1, "Backend", "frontend", "build"));
+//     app.use(express.static(path.join(__dirname1, "/Backend/frontend/build")));
+
+//     app.get("*", (req, res) => {
+//         console.log("Request received for: ", req.path);
+//         res.sendFile(path.resolve(__dirname1, "Backend", "frontend", "build", "index.html"));
+//     });
+// }
 
 // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ Deployment + +-+-+-+-+-+-+-+-+-+-+-+-+
 const PORT = process.env.PORT || 5000;
+
 app.get("/", (req, res) => {
     res.send("API is running...");
 });
@@ -50,7 +51,7 @@ const server = app.listen(
 const io = require("socket.io")(server, {
     pingTimeout: 60000,
     cors: {
-        origin: "http://localhost:3000",
+        origin: `http://localhost:3000`,
         // credentials: true,
     },
 });
