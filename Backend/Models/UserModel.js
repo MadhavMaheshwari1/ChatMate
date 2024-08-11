@@ -1,23 +1,27 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const UserModel = mongoose.Schema({
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+
+const UserSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     pic: {
-        type: String, default: 'https://www.elevenforum.com/attachments/images-jpeg-2-jpg.45643/'
+        type: String, 
+        default: 'https://www.elevenforum.com/attachments/images-jpeg-2-jpg.45643/'
     }
 }, {
     timestamps: true,
-})
+});
 
-UserModel.methods.matchPassword = async function (enteredPassword) {
+// Method to match password
+UserSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
 
-UserModel.pre('save', async function (next) {
-    if (!this.isModified('password')) { // Check if only the password field is modified
-        return next(); // Exit middleware
+// Pre-save hook to hash password
+UserSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) {
+        return next(); // Exit middleware if password is not modified
     }
 
     try {
@@ -30,6 +34,6 @@ UserModel.pre('save', async function (next) {
     }
 });
 
+const User = mongoose.model('User', UserSchema);
 
-const User = mongoose.model('User', UserModel);
-module.exports = User;
+export default User;

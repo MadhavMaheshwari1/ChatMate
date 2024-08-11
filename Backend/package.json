@@ -2,6 +2,7 @@
   "name": "chatmate",
   "version": "1.0.0",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "build-frontend": "cd frontend && yarn install && yarn build",
     "build-backend": "yarn install",

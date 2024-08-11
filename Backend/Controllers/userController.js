@@ -1,9 +1,9 @@
-const expressAsyncHandler = require('express-async-handler');
-const User = require('../Models/UserModel');
-const generateToken = require('../Config/generateToken');
+import expressAsyncHandler from 'express-async-handler';
+import User from '../Models/UserModel.js';
+import generateToken from '../Config/generateToken.js';
 
 // Register user
-const registerUser = expressAsyncHandler(async (req, res) => {
+export const registerUser = expressAsyncHandler(async (req, res) => {
     const { name, email, password, pic } = req.body;
 
     try {
@@ -20,8 +20,8 @@ const registerUser = expressAsyncHandler(async (req, res) => {
         // Generate token
         const token = generateToken(newUser);
 
-        // Respond with token and user data
-        if (newUser.pic === null) {
+        // Default pic if not provided
+        if (!newUser.pic) {
             newUser.pic = 'https://www.elevenforum.com/attachments/images-jpeg-2-jpg.45643/';
         }
 
@@ -41,7 +41,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 });
 
 // Authenticate user
-const authUser = expressAsyncHandler(async (req, res) => {
+export const authUser = expressAsyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
     try {
@@ -61,6 +61,7 @@ const authUser = expressAsyncHandler(async (req, res) => {
 
         // Generate token
         const token = generateToken(user);
+
         // Respond with token and user data
         res.status(200).json({
             token,
@@ -77,13 +78,15 @@ const authUser = expressAsyncHandler(async (req, res) => {
     }
 });
 
-const getAllUsers = expressAsyncHandler(async (req, res) => {
+// Get all users
+export const getAllUsers = expressAsyncHandler(async (req, res) => {
     const keyword = req.query.search ? {
         $or: [
             { name: { $regex: req.query.search, $options: "i" } },
             { email: { $regex: req.query.search, $options: "i" } },
         ],
     } : {};
+
     const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
     const filteredUsers = users.map(user => ({
         _id: user._id,
@@ -95,5 +98,3 @@ const getAllUsers = expressAsyncHandler(async (req, res) => {
     res.json(filteredUsers);
     console.log(filteredUsers);
 });
-
-module.exports = { registerUser, authUser, getAllUsers };

@@ -1,13 +1,21 @@
-const express = require('express');
+import express from 'express';
+import { protect } from '../Middlwares/authMiddleWare.js';
+import {
+  accessChat,
+  fetchChats,
+  createGroupChat,
+  renameGroup,
+  addToGroup,
+  removeFromGroup
+} from '../Controllers/chatController.js';
+
 const router = express.Router();
-const { protect } = require('../Middlwares/authMiddleWare');
-const { accessChat, fetchChats,createGroupChat,renameGroup,addToGroup,removeFromGroup} = require('../Controllers/chatController');
 
-router.route('/').post(protect, accessChat);
-router.route('/').get(protect,fetchChats);
-router.route('/group').post(protect,createGroupChat);
-router.route('/rename').put(protect,renameGroup);
-router.route('/addToGroup').put(protect,addToGroup);
-router.route('/removeFromGroup').put(protect,removeFromGroup);
+router.post('/', protect, accessChat);
+router.get('/', protect, fetchChats);
+router.post('/group', protect, createGroupChat);
+router.put('/rename', protect, renameGroup);
+router.put('/addToGroup', protect, addToGroup);
+router.put('/removeFromGroup', protect, removeFromGroup);
 
-module.exports = router;
+export default router;
