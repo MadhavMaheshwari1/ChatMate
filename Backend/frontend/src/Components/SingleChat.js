@@ -190,7 +190,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                                 <Flex w="100%" justifyContent="space-between">
                                     <div>{getSender(User, selectedChat.users)}</div>
                                     <ProfileModal User={getSender(User, selectedChat.users)}>
-                                        <FaEye style={{ cursor: 'pointer' }} />{" "}
                                     </ProfileModal>
                                 </Flex>
                                 <Box
