@@ -189,7 +189,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                             <Flex h="85vh" flexDir={"column"} w="100%" gap={"10px"}>
                                 <Flex w="100%" justifyContent="space-between">
                                     <div>{getSender(User, selectedChat.users)}</div>
-                                    <ProfileModal User={getSenderFull(User, selectedChat.users)}>
+                                    <ProfileModal User={getSender(User, selectedChat.users)}>
                                         <FaEye style={{ cursor: 'pointer' }} />{" "}
                                     </ProfileModal>
                                 </Flex>
@@ -223,7 +223,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                                                 options={defaultOptions}
                                                 height={50}
                                                 width={70}
-                                                style={{ marginBottom: 15, marginLeft: 0,padding:10 }}
+                                                style={{ marginBottom: 15, marginLeft: 0, padding: 10 }}
                                             />
                                         </div>
                                     ) : (
