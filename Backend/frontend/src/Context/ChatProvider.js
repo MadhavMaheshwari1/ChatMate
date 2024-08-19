@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const ChatContext = createContext();
 
@@ -13,12 +14,21 @@ const ChatProvider = ({ children }) => {
 
     useEffect(() => {
         const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-        setUser(userInfo);
 
-        if (!userInfo) {
+        if (userInfo && userInfo.token) {
+            const decodedToken = jwtDecode(userInfo.token);
+            const currentTime = Date.now() / 1000;
+
+            if (decodedToken.exp < currentTime) {
+                // Token is expired
+                localStorage.removeItem("userInfo");
+                navigate("/");
+            } else {
+                setUser(userInfo);
+                navigate("/Chats");
+            }
+        } else {
             navigate("/");
-        } else{
-            navigate("/Chats");
         }
     }, [navigate]);
 
