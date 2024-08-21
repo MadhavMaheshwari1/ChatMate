@@ -58,7 +58,7 @@ import { Server as SocketIOServer } from 'socket.io';
 const io = new SocketIOServer(server, {
     pingTimeout: 60000,
     cors: {
-        origin: `http://localhost:3000`,
+        origin: `https://chatmate-b4t0.onrender.com`,
     },
 });
 
