@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import { Stack, HStack, VStack } from '@chakra-ui/react'
-import { FormControl, FormLabel } from '@chakra-ui/react';
-import { Input, InputGroup, InputRightElement, Button } from '@chakra-ui/react';
-import { useToast } from '@chakra-ui/react';
+import { VStack, FormControl, FormLabel, Input, InputGroup, InputRightElement, Button, useToast } from '@chakra-ui/react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,7 +7,6 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passShow, setPassShow] = useState(false);
-    const [Loading, setLoading] = useState(false);
     const toast = useToast();
     const navigate = useNavigate();
 
@@ -25,7 +21,6 @@ const Login = () => {
             });
             return;
         }
-        setLoading(true);
         try {
             const config = {
                 headers: {
@@ -41,7 +36,6 @@ const Login = () => {
                 position: "top",
             });
             localStorage.setItem("userInfo", JSON.stringify(data));
-            setLoading(false);
             navigate('/Chats');
         } catch (error) {
             toast({
@@ -52,7 +46,6 @@ const Login = () => {
                 isClosable: true,
                 position: "top",
             });
-            setLoading(false);
         }
     };
 

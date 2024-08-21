@@ -1,8 +1,9 @@
 import { Avatar } from "@chakra-ui/avatar";
 import { Box, Text } from "@chakra-ui/layout";
 import { ChatState } from "../Context/ChatProvider";
+import React from "react"
 
-const UserListItem = ({user, handleFunction }) => {
+const UserListItem = React.memo(({ user, handleFunction }) => {
 
     console.log(user);
 
@@ -40,6 +41,6 @@ const UserListItem = ({user, handleFunction }) => {
             </Box>
         </Box>
     );
-};
+});
 
 export default UserListItem;

@@ -1,7 +1,8 @@
 import { CloseIcon } from "@chakra-ui/icons";
 import { Badge } from "@chakra-ui/layout";
+import React from "react";
 
-const UserBadgeItem = ({ user, handleFunction, admin }) => {
+const UserBadgeItem = React.memo(({ user, handleFunction, admin }) => {
   return (
     <Badge
       px={2}
@@ -20,6 +21,6 @@ const UserBadgeItem = ({ user, handleFunction, admin }) => {
       <CloseIcon pl={1} />
     </Badge>
   );
-};
+});
 
 export default UserBadgeItem;

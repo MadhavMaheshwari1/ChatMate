@@ -11,20 +11,18 @@ const HomePage = () => {
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
-    if (!userInfo) {
-      navigate("/");
-    } else {
+    if (userInfo) {
       navigate("/Chats");
     }
-  }, [navigate]);
-  
+  }, []);
+
   return (
-    <Container maxW="3xl" h="100%" p={10}>
+    <Container maxW="3xl" h="100%" p={4}>
       <Box color='white' p={10} bg={"blue.100"} borderRadius="xl" margin="0px 0px 15px 0px">
         <Text color='black' fontSize={"4xl"} fontWeight="bold" textAlign={"center"}>Chat Mate</Text>
       </Box>
-      <Box d="flex" justifyContent='center' color='black' p={5} bg={"white"} borderRadius="xl" margin="0px 0px 10px 0px">
-        <Tabs variant='soft-rounded' colorScheme='blue'>
+      <Box d="flex" justifyContent='center' color='black' p={5} bg={"white"} borderRadius="xl">
+        <Tabs variant='soft-rounded' colorScheme='blue' isLazy>
           <TabList>
             <Tab width="50%">Login</Tab>
             <Tab width="50%">Sign Up</Tab>

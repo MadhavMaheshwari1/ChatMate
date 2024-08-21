@@ -14,14 +14,15 @@ import {
   Box,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { ChatState } from "../../Context/ChatProvider";
 import UserBadgeItem from "../../userAvatar/UserBadgeItem";
 import UserListItem from "../../userAvatar/UserListItem";
+import ChatLoading from "../../ChatLoading";
 
 const GroupChatModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [groupChatName, setGroupChatName] = useState();
+  const [groupChatName, setGroupChatName] = useState("");
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
@@ -30,7 +31,7 @@ const GroupChatModal = ({ children }) => {
 
   const { User, chats, setChats } = ChatState();
 
-  const handleGroup = (userToAdd) => {
+  const handleGroup = useCallback((userToAdd) => {
     if (selectedUsers.includes(userToAdd)) {
       toast({
         title: "User already added",
@@ -41,11 +42,10 @@ const GroupChatModal = ({ children }) => {
       });
       return;
     }
+    setSelectedUsers((prevSelectedUsers) => [...prevSelectedUsers, userToAdd]);
+  }, [selectedUsers, toast]);
 
-    setSelectedUsers([...selectedUsers, userToAdd]);
-  };
-
-  const handleSearch = async (query) => {
+  const handleSearch = useCallback(async (query) => {
     setSearch(query);
     if (!query) {
       return;
@@ -59,7 +59,7 @@ const GroupChatModal = ({ children }) => {
           Authorization: `Bearer ${User.token}`,
         },
       };
-      const { data } = await axios.get(`/api/users?search=${search}`, config);
+      const { data } = await axios.get(`/api/users?search=${query}`, config);
       console.log(data);
       setLoading(false);
       setSearchResult(data);
@@ -73,16 +73,18 @@ const GroupChatModal = ({ children }) => {
         position: "bottom-left",
       });
     }
-  };
+  }, [User.token, toast]);
 
-  const handleDelete = (delUser) => {
-    setSelectedUsers(selectedUsers.filter((sel) => sel._id !== delUser._id));
-  };
+  const handleDelete = useCallback((delUser) => {
+    setSelectedUsers((prevSelectedUsers) =>
+      prevSelectedUsers.filter((sel) => sel._id !== delUser._id)
+    );
+  }, []);
 
   const handleSubmit = async () => {
-    if (!groupChatName || !selectedUsers) {
+    if (!groupChatName || !selectedUsers.length) {
       toast({
-        title: "Please fill all the feilds",
+        title: "Please fill all the fields",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -106,7 +108,7 @@ const GroupChatModal = ({ children }) => {
         },
         config
       );
-      setChats([data, ...chats]);
+      setChats((prevChats) => [data, ...prevChats]);
       onClose();
       toast({
         title: "New Group Chat Created!",
@@ -153,7 +155,7 @@ const GroupChatModal = ({ children }) => {
             </FormControl>
             <FormControl>
               <Input
-                placeholder="Add Users eg: John, Piyush, Jane"
+                placeholder="Add Users eg:Madhav,Vasu or Vivaswan"
                 mb={1}
                 onChange={(e) => handleSearch(e.target.value)}
               />
@@ -168,8 +170,7 @@ const GroupChatModal = ({ children }) => {
               ))}
             </Box>
             {loading ? (
-              // <ChatLoading />
-              <div>Loading...</div>
+              <ChatLoading />
             ) : (
               searchResult
                 ?.slice(0, 4)

@@ -5,17 +5,18 @@ import { ChatState } from "../Context/ChatProvider";
 import UpdateGroupChatModal from "./Miscellaneous/UpdateGroupChatModal";
 import { getSender, getSenderFull } from "../Config/ChatLogics";
 import ProfileModal from "./Miscellaneous/ProfileModal";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import "../styles.css";
 import ScrollableChat from "./ScrollableChat";
-import io from "socket.io-client"
+import io from "socket.io-client";
 import Lottie from "react-lottie";
+import React from "react";
 import animationData from "../Animations/typing.json";
 const ENDPOINT = "http://localhost:5000";
 var socket, selectedChatCompare;
 
-const SingleChat = ({ fetchAgain, setFetchAgain }) => {
+const SingleChat = React.memo(({ fetchAgain, setFetchAgain }) => {
     const { selectedChat, setSelectedChat, User, notification, setNotification } = ChatState();
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -54,7 +55,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     config
                 );
                 socket.emit("new message", data);
-                setMessages([...messages, data]);
+                setMessages((prevMessages) => [...prevMessages, data]);
             } catch (error) {
                 toast({
                     title: "Error Occured!",
@@ -81,7 +82,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         };
     }, [User.user]);
 
-    const fetchMessages = async () => {
+    const fetchMessages = useCallback(async () => {
         if (selectedChat.length === 0) return;
 
         try {
@@ -110,7 +111,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 position: "top",
             });
         }
-    };
+    }, [selectedChat, User.token, toast]);
 
     useEffect(() => {
         fetchMessages();
@@ -118,7 +119,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         return () => {
             socket.emit("leave chat", selectedChat._id);
         };
-    }, [selectedChat]);
+    }, [selectedChat, fetchMessages]);
+
+    const handleFetchAgain = useCallback(() => {
+        setFetchAgain((prev) => !prev);
+    }, [setFetchAgain]);
 
     useEffect(() => {
         socket.on("message recieved", (newMessageRecieved) => {
@@ -127,18 +132,18 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 selectedChatCompare._id !== newMessageRecieved.chat._id
             ) {
                 if (!notification.includes(newMessageRecieved)) {
-                    setNotification([newMessageRecieved, ...notification]);
-                    setFetchAgain(!fetchAgain);
+                    setNotification((prevNotifications) => [newMessageRecieved, ...prevNotifications]);
+                    handleFetchAgain();
                 }
             } else {
-                setMessages([...messages, newMessageRecieved]);
+                setMessages((prevMessages) => [...prevMessages, newMessageRecieved]);
             }
         });
 
         return () => {
             socket.off("message recieved");
         };
-    }, [notification, fetchAgain, messages]);
+    }, [notification, handleFetchAgain, messages]);
 
     const typingHandler = (e) => {
         setNewMessage(e.target.value);
@@ -158,7 +163,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 setTyping(false);
             }
         }, timerLength);
-    }
+    };
 
     return (
         <>
@@ -250,7 +255,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                                     <div>
                                         <UpdateGroupChatModal
                                             fetchAgain={fetchAgain}
-                                            setFetchAgain={setFetchAgain}
+                                            setFetchAgain={handleFetchAgain}
                                             fetchMessages={fetchMessages}
                                         />
                                     </div>
@@ -298,6 +303,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             )}
         </>
     );
-};
+});
 
 export default SingleChat;

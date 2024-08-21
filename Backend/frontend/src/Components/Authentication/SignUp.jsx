@@ -18,7 +18,7 @@ const SignUp = () => {
 
     const postDetails = (pics) => {
         setLoading(true);
-        if (pics === undefined) {
+        if (pics === '') {
             toast({
                 title: "Please Select an Image!",
                 status: "warning",
@@ -121,7 +121,7 @@ const SignUp = () => {
     };
 
     return (
-        <VStack spacing="5px" color="black" pl="5px">
+        <VStack spacing="4px" color="black" p="5px">
             <FormControl id="firstName" isRequired mb="5px">
                 <FormLabel>Name</FormLabel>
                 <Input placeholder="Enter your name" value={name} onChange={(e) => setName(e.target.value)} />

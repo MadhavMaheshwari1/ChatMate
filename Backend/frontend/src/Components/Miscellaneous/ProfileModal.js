@@ -1,3 +1,4 @@
+import React from 'react';
 import { ViewIcon } from "@chakra-ui/icons";
 import {
   Modal,
@@ -14,7 +15,8 @@ import {
   Image,
 } from "@chakra-ui/react";
 
-const ProfileModal = ({ User, children }) => {
+// Wrap the component with React.memo
+const ProfileModal = React.memo(({ User, children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -61,6 +63,6 @@ const ProfileModal = ({ User, children }) => {
       </Modal>
     </>
   );
-};
+});
 
 export default ProfileModal;

@@ -2,6 +2,7 @@ import { AddIcon } from "@chakra-ui/icons";
 import { Box, Stack, Text } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
 import axios from "axios";
+import React from 'react';
 import { useEffect, useState } from "react";
 import { getSender } from "../Config/ChatLogics";
 import ChatLoading from "../ChatLoading";
@@ -9,7 +10,7 @@ import GroupChatModal from "./Miscellaneous/GroupChatModal";
 import { Button } from "@chakra-ui/react";
 import { ChatState } from "../Context/ChatProvider";
 
-const MyChats = ({ fetchAgain }) => {
+const MyChats = React.memo(({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
 
   const { selectedChat, setSelectedChat, User, chats, setChats } = ChatState();
@@ -130,6 +131,6 @@ const MyChats = ({ fetchAgain }) => {
       </Box>
     </Box>
   );
-};
+});
 
 export default MyChats;

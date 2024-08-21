@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Box, Button, Text, Tooltip, Avatar, Spinner, Input } from "@chakra-ui/react";
 import {
   Menu,
@@ -89,7 +89,7 @@ function SideDrawer() {
     }
   };
 
-  const accessChat = async (userId) => {
+  const accessChat = useCallback(async (userId) => {
     console.log(userId);
     try {
       setLoadingChat(true);
@@ -116,7 +116,7 @@ function SideDrawer() {
         position: "bottom-left",
       });
     }
-  };
+  }, [User.token, chats, setChats, setSelectedChat, onClose, toast]);
 
   return (
     <>

@@ -1,9 +1,10 @@
 import { Box } from "@chakra-ui/layout";
 import "../styles.css";
 import SingleChat from "./SingleChat";
+import React from "react";
 import { ChatState } from "../Context/ChatProvider";
 
-const ChatBox = ({ fetchAgain, setFetchAgain }) => {
+const ChatBox = React.memo(({ fetchAgain, setFetchAgain }) => {
   const { selectedChat } = ChatState();
 
   return (
@@ -21,6 +22,6 @@ const ChatBox = ({ fetchAgain, setFetchAgain }) => {
       <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
     </Box>
   );
-};
+});
 
 export default ChatBox;

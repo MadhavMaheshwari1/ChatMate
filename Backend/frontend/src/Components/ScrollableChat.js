@@ -10,7 +10,7 @@ import {
 } from "../Config/ChatLogics.js";
 import { ChatState } from "../Context/ChatProvider.js";
 
-const ScrollableChat = ({ messages }) => {
+const ScrollableChat = React.memo(({ messages }) => {
     const { User } = ChatState();
 
     return (
@@ -60,6 +60,6 @@ const ScrollableChat = ({ messages }) => {
             })}
         </ScrollableFeed>
     );
-};
+});
 
 export default ScrollableChat;
