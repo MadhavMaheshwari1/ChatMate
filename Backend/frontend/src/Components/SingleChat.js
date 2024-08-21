@@ -13,7 +13,7 @@ import io from "socket.io-client";
 import Lottie from "react-lottie";
 import React from "react";
 import animationData from "../Animations/typing.json";
-const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = "https://chatmate-b4t0.onrender.com";
 var socket, selectedChatCompare;
 
 const SingleChat = React.memo(({ fetchAgain, setFetchAgain }) => {
