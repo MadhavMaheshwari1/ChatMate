@@ -7,7 +7,7 @@
 .App {
     min-height: 100vh;
     width: 100%;
-    background-image: url('../Background.png');
+    background-image: url('../Background.webp');
     background-repeat: no-repeat;
     background-size: cover;
 }
